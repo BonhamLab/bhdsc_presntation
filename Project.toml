@@ -1,0 +1,12 @@
+[deps]
+CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
+CondaPkg = "992eb4ea-22a4-4c89-a5bb-47a3300528ab"
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
+FormatSpecimens = "3372ea36-2a1a-11e9-3eb7-996970b6ffbd"
+GLMakie = "e9467ef8-e4e7-5192-8a1a-b1aee30e663a"
+LaTeXStrings = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
+PythonCall = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
+RCall = "6f49c342-dc21-5d91-9882-a32aef131414"
+SpecialFunctions = "276daf66-3868-5448-9aa4-cd146d93841b"
+bowtie_jll = "eb2c8555-dd0c-5034-8ba4-744b1f3a043f"

@@ -1,0 +1,185 @@
+# This is a Quarto notebook
+
+The "Ju" in jupyter is for julia!
+
+Call a function:
+```{julia}
+println("Hello, World!")
+```
+
+Write a function
+```{julia}
+function func_name(arg1, arg2; kwarg="interpolated")
+    internal_var = arg1 + arg2
+    return "This is an $kwarg string: $internal_var"
+end
+
+# or using in-line syntax
+func_name(arg1) = "This is a new 'method' of func_name"
+```
+
+Functions always call their most specific
+method, given the arguments
+
+```{julia}
+func_name(arg1::Number) = println("This is for numbers")
+func_name(arg1::AbstractFloat) = println("This is for floats")
+func_name(arg1::Float32) = println("Float32 is a concrete type")
+```
+
+```{julia}
+func_name(1) # Int64
+func_name(1+1im) # Complex
+func_name(1.0) # Float64
+func_name(1f0) # Float32
+```
+
+```{julia}
+supertypes(typeof(1.0))
+```
+
+```{julia}
+func_name(37, 5)
+```
+
+```{julia}
+func_name(nothing)
+```
+
+Vectors and nd arrays are well supported.
+
+```{julia}
+my_vec = [1,2,3]
+my_mat = [1 2
+          3 4] #or [1 2; 3 4]
+```
+
+Note: Julia uses 1-based indexing
+
+```{julia}
+my_vec[1:2] # take a slice
+```
+```{julia}
+my_mat[1,2] # take an element
+```
+
+Array constructors - all of the following do the same thing
+
+```{julia}
+# comprehension
+new_vec = [x + 1 for x in my_vec]
+
+# map - the `i->` syntax is anon. (lambda) function
+new_vec = map(x-> x+1, my_vec)
+
+# for loop
+new_vec = Int64[]
+for x in my_vec
+    push!(new_vec, x+1) 
+end
+
+# for-loop with pre-initialized vector
+new_vec = Vector{Int64}(undef, length(my_vec))
+for (i,x) in enumerate(my_vec)
+    new_vec[i] = x + 1
+end
+```
+
+Arrays can be made of any type and are performant
+
+```{julia}
+str_mat = [string(x,y) for x in "abcde", y in "wxyz"]
+```
+
+Array indecies can be linear or `[dim1,dim2...,dim_n]`
+
+```{julia}
+str_mat[4,2]
+```
+
+```{julia}
+str_mat[9]
+```
+
+Structs and other types
+
+```{julia}
+struct MyPoint
+   x::Int64
+   y::Int64
+end
+
+pt(x,y) = MyPoint(x,y)
+
+function distance(p1::MyPoint, p2::MyPoint)
+    return sqrt(
+        (p1.x - p2.x)^2 +
+        (p1.y - p2.y)^2
+    )
+end
+
+distance(pt(1,2), pt(10,11))
+```
+
+Macros (starting with `@`) allow you to modify syntax
+
+
+```{julia}
+macro point(expr1, expr2)
+    return quote MyPoint($expr1, $expr2) end
+end
+
+@point 1 2
+```
+
+
+```{julia}
+function add_one(v)
+    for i in eachindex(v)
+        v[i] += 1
+    end
+end
+
+```
+
+```{julia}
+using Base.Threads
+
+function add_one_threads(v)
+    @threads for i in eachindex(v)
+        v[i] += 1
+    end
+end
+```
+
+
+```{julia}
+using BenchmarkTools
+```
+```{julia}
+@benchmark add_one($(rand(100_000)))
+```
+```{julia}
+@benchmark add_one_threads($(rand(100_000)))
+```
+
+Lots of plotting options, I like Makie.jl
+
+```{julia}
+# taken from "https://beautiful.makie.org"
+using GLMakie
+using SpecialFunctions
+using LaTeXStrings
+
+x = 0.1:0.1:15
+
+fig = Figure(size = (600, 400), fonts =(; regular= "CMU Serif"))
+ax = Axis(fig[1, 1], xlabel = L"x", ylabel = L"J_{\nu}(x)", ylabelsize = 22,
+    xlabelsize = 22, xgridstyle = :dash, ygridstyle = :dash, xtickalign = 1,
+    xticksize = 10, ytickalign = 1, yticksize = 10, xlabelpadding = -10)
+for ν in 0:6
+    lines!(ax, x, besselj.(ν, x), label = latexstring("J_{$(ν)}(x)"))
+end
+axislegend(; nbanks = 3, framecolor = (:grey, 0.5));
+fig
+```
