@@ -2,6 +2,7 @@
 #import themes.simple: *
 #import "@preview/cetz:0.3.2"
 #import "@preview/codly:1.0.0": *
+#import "@preview/fontawesome:0.5.0": *
 
 #let cetz-canvas = touying-reducer.with(reduce: cetz.canvas, cover: cetz.draw.hide.with(bounds: true))
 #show: simple-theme.with(aspect-ratio: "16-9",
@@ -25,10 +26,21 @@
   2025-05-28
 ]
 
+== Outline
 
-= About me
+#slide[
+  #set text(28pt)
+- About me
+- Why Julia?
+- Getting started with julia
 
-#image("assets/narcissus.jpg")
+]
+
+= About me 
+
+#figure(image("assets/narcissus.jpg"), numbering: none, caption:[
+  #text(15pt, fill: gray)[https://en.wikipedia.org/wiki/Narcissus_(Caravaggio)]
+])
 
 
 == At the bench - small molecule inhibitors of T-cells
@@ -37,13 +49,10 @@
 - B.S. from UCSD in Biochemistry and Cell biology
 - Postbac with Kerry Mowen - chemical inhibitors of
   protein arginine methyl-transferases (PRMTs)
-- _ex vivo_ T-cell culturing, western blots, flow cytometry
 ][
-  #pause
   #figure(
     image("assets/prmt-fig2b.png", width: 60%),
     )
-    #pause
   #figure(
     image("assets/prmt-fig5b.png", width: 50%),
     )
@@ -81,23 +90,6 @@
 
 ]
 
-
-== Horizontal gene transfer is common in bacteria
-
-#slide[
-    #v(-1.5em)
-    #figure(
-    cetz-canvas({
-    import cetz.draw: *
-    content((0, 0), [#image("assets/hgt-1.png", width: 500pt)])
-
-    content((0, 0), [#image("assets/hgt-2.png", width: 500pt)])
-    (pause,)
-    content((0, 0), [#image("assets/hgt-3.png", width: 500pt)])
-    (pause,)
-    content((0, 0), [#image("assets/hgt-4.png", width: 500pt)])
-    }))
-]
 
 == `Kvasir` - A python package for HGT discovery
 
@@ -192,7 +184,7 @@
     - Investigated ~7k blood proteins in matched PASC / COVID-recovered cohort
 
     #v(2em)
-    #text(11pt)[Woodruff and Bonham, _et. al._, _Sci. Adv._ (2023)]
+    #text(11pt)[Woodruff and Bonham, _et. al._, _Nat. Comm._ (2023)]
 ][
     #figure(
         image("assets/pasc-fig1.png", width: 80%)
@@ -203,7 +195,7 @@
     #figure(
         image("assets/pasc-fig2.png", width: 90%)
     )
-    #text(11pt)[Woodruff and Bonham, _et. al._, _Sci. Adv._ (2023)]
+    #text(11pt)[Woodruff and Bonham, _et. al._, _Nat. Comm._ (2023)]
 ]
 
 #slide[
@@ -211,7 +203,7 @@
     #figure(
         image("assets/pasc-fig3.png")
     )
-    #text(11pt)[Woodruff and Bonham, _et. al._, _Sci. Adv._ (2023)]
+    #text(11pt)[Woodruff and Bonham, _et. al._, _Nat. Comm._ (2023)]
 ]
 
 == Current Work: SpatialOmics.jl
@@ -232,17 +224,18 @@
 == My Julia journey
 
 #slide(composer:(2fr,2fr))[
-- First language I tried to learn (c. 2014, `julia v0.3`)
-- Stopped in favor of python until May \2017
-- Hooked when I implemented min-hash sketch just based on equation
-  in paper, and it was _fast_
-- First registered package (`Microbiome.jl`) Oct 2017
-- First PR to julia language in 2018
-][
   #v(-2em)
   #set align(center)
   #image("assets/stackoverflow-first.png", width: 83%)
   #image("assets/julia-pr.png", width: 76%)
+][
+  #pause
+- First language I tried to learn (c. 2014, `julia v0.3`)#pause
+- Stopped in favor of python until May \2017#pause
+- Hooked when I implemented min-hash sketch just based on equation
+  in paper, and it was _fast_#pause
+- First registered package (`Microbiome.jl`) Oct 2017
+- First PR to julia language in 2018
 ]
 
 
@@ -329,11 +322,11 @@ end
 )
 ][
   #set text(18pt)
-  - Plotting a `ODESolution` object from `DifferentialEquations.jl` containing    
-    `Measurement`s from `Measurements.jl` using `Plots.jl`
-  - Yields the solutions of the Lotka-Volterra system 
-    with correct error bounds without the user having to change the callsite.
-  - Neither of these packages has code in their recipes
+  - Plotting a `ODESolution` object from `DifferentialEquations.jl`
+    - containing `Measurement`s from `Measurements.jl`
+  - plots solutions of the Lotka-Volterra system (lines) 
+    with correct error bounds
+  - Neither of these packages has code 
     for handling types of the other package.
 
   #text(12pt)[
@@ -378,19 +371,33 @@ end
 
 == Installation with `juliaup`
 
-#slide(composer: (1fr,1fr))[
-  - inspired by `rustup`
-  - `curl -fsSL https://install.julialang.org | sh`
-  - also available from the Windows store
-][
-  #image("assets/juliaup.png")
-]
+- inspired by `rustup`
+- `curl -fsSL https://install.julialang.org | sh`
+- also available from the Windows store
+
+#image("assets/juliaup.png")
 
 == Use any text editor (VS Code is well supported)
 
 #align(center, image("assets/vscode.png", width: 63%))
 
 #focus-slide()[== Syntax Demo]
+
+== Useful Ecosystems for Bioinformatics and Data Science
+
+- BioJulia: https://biojulia.dev
+  - Efficient sequence types
+  - parsers for common formats,
+    Automa.jl to generate FSM-based parsers
+  - `SingleCellProjections.jl` and `BioMakie.jl` #pause
+- JuliaData:
+  - `DataFrames.jl`, `CSV.jl`, `Tables.jl`
+  - Databases (`DuckDB.jl`, `SQLite.jl`, etc) #pause
+- `Pluto.jl` - interactive notebooks #pause
+- JuliaImages
+- SciML / `DifferentialEquations.jl`: https://sciml.ai
+- `Turing.jl` - Bayesian statistics
+
 
 
 
@@ -405,3 +412,18 @@ end
 - Julia documentation: https://docs.julialang.org
 - Julia communities (slack, discourse): https://julialang.org/community/
 - BioJulia Tutorials: https://biojulia.dev/BioTutorials
+
+== Contact info
+
+#slide(composer: (2fr,3fr))[
+#figure(image("assets/narcissus.jpg", width:75%), numbering: none, caption:[
+  #text(15pt, fill: gray)[https://en.wikipedia.org/wiki/Narcissus_(Caravaggio)]
+])
+
+][
+- #fa-icon("github", font: "Font Awesome 6 Pro Solid") / #fa-icon("gitlab", font: "Font Awesome 6 Pro Solid"): `@kescobo`
+- 🔬🌐(WIP) - https://lab.bonham.ch
+- 🙋🌐 - https://blog.bonham.ch
+- Julia slack/discourse/zulip etc - just search my name
+- 🦋 https://bsky.app/\@kevinbonham.com
+]
