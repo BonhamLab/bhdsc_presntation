@@ -8,7 +8,7 @@
 #show: simple-theme.with(aspect-ratio: "16-9",
   title: [ Speed, versatility, and joy - don't chose only two!],
   subtitle: [Computational biology in Julia for fun and profit],
-  footer: [Kevin Bonham, PhD | BHCSD Seminar, May 2025]
+  footer: [Kevin Bonham, PhD | BHDSC Seminar, May 2025]
 )
 
 #show: codly-init.with()
